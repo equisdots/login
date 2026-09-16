@@ -1,0 +1,66 @@
+# login
+
+Minimal static login theme for the [equisdots](https://github.com/equisdots)
+desktop (SDDM greeter).
+
+Version: **0.1.0** · License: MIT
+
+## Design
+
+Black screen. Only the remembered user and a password field:
+
+- the **last logged-in user** is shown as plain text (SDDM remembers it);
+- the password field is a **white underline** that expands from the center
+  when focused;
+- below, centered: a **session picker** (glyph + session name, minimal popup,
+  last session preselected) and **power off / reboot** as small circular
+  glyph buttons;
+- monochrome, no images, no palette dependency;
+- `Hack Nerd Font` for text and glyphs.
+
+Animations (all local, no scripting):
+
+- soft intro: the fields fade in and slide up;
+- underline: grows and brightens on focus;
+- failed login: shake + red underline + small `login failed` note;
+- user switch (`Tab` / `Backtab`): cross-fade of the fields;
+- subtle color fades on every control hover.
+
+## Why static
+
+The old palette-synced theme needed writes under `/usr/share/sddm/themes` at
+runtime, which meant sudo calls from hooks and a real risk of PAM lockouts
+(`pam_faillock`). This theme is installed **once** and never writes again:
+
+- no palette/wallpaper sync, no `Colors.qml`, no background image;
+- runtime sudo: none;
+- conflicts handled at install: `theme.conf.user` is parked as `.bak`, the
+  on-screen keyboard is disabled.
+
+## Install
+
+```sh
+./install.sh              # one-time sudo: theme + sddm config
+./install.sh --uninstall  # remove the theme and its sddm config
+```
+
+The installer copies the theme to `/usr/share/sddm/themes/x`, selects it in
+`/etc/sddm.conf.d/10-x-theme.conf` and removes leftovers from the previous
+version.
+
+## Structure
+
+```
+login/
+  install.sh               installer (one-time sudo)
+  z-disable-virtualkbd.conf  sddm fragment that disables the virtual keyboard
+  theme/x/                 the SDDM theme (Qt6)
+    Main.qml               the whole UI + animations
+    metadata.desktop       theme metadata
+    theme.conf             [General] InputMethod= (no background)
+```
+
+## Pending
+
+Integration with `equisdots/dots` (install this repo's theme and drop the
+old theme from `equisdots/hyprland`).
