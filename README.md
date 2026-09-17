@@ -48,6 +48,13 @@ The installer copies the theme to `/usr/share/sddm/themes/x`, selects it in
 `/etc/sddm.conf.d/10-x-theme.conf` and removes leftovers from the previous
 version.
 
+It also makes sure **SDDM is the active display manager**: if another DM
+(`plasmalogin`, GDM, LightDM, Ly, greetd...) owns
+`/etc/systemd/system/display-manager.service`, the previous symlink is kept at
+`display-manager.service.equisdots-backup` and the link is switched to SDDM
+(the other DM is disabled). `--uninstall` restores it. The theme can only be
+shown when SDDM is the one greeting you.
+
 ## Structure
 
 ```
