@@ -60,7 +60,8 @@ login/
     theme.conf             [General] InputMethod= (no background)
 ```
 
-## Pending
+## Integration
 
-Integration with `equisdots/dots` (install this repo's theme and drop the
-old theme from `equisdots/hyprland`).
+`dots install` clones this repo; `dots system` runs the hyprland installer,
+which delegates the SDDM theme to this repo's `install.sh` (sibling
+checkout). The hyprland `uninstall.sh` delegates here too.
